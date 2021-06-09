@@ -1,5 +1,5 @@
 import "./Homepage.scss";
-import Directory from "./Directory";
+import Directory from "../components/Directory";
 
 const HomePage = () => (
   <div className="homepage">
