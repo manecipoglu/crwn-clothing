@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import HomePage from "./pages/Homepage";
 import ShopPage from "./pages/ShopPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -6,10 +6,10 @@ import Header from "./components/Header";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/utils";
+import { connect } from "react-redux";
+import { setCurrentUser } from "./redux/user/userActions";
 
-function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-
+function App({ setCurrentUser }) {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -43,4 +43,8 @@ function App() {
   );
 }
 
-export default App;
+const mapDispatch = {
+  setCurrentUser,
+};
+
+export default connect(null, mapDispatch)(App);
