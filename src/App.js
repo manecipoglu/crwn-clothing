@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import HomePage from "./pages/Homepage";
-import Shop from "./pages/Shop";
+import ShopPage from "./pages/ShopPage";
+import RegisterPage from "./pages/RegisterPage";
 import Header from "./components/Header";
-import Register from "./pages/Register";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/utils";
@@ -29,15 +29,15 @@ function App() {
     return () => {
       unsubscribeFromAuth();
     };
-  });
+  }, []);
 
   return (
     <div className="App">
       <Header currentUser={currentUser} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/signin" element={<Register />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/signin" element={<RegisterPage />} />
       </Routes>
     </div>
   );
