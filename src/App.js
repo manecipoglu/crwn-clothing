@@ -4,12 +4,12 @@ import ShopPage from "./pages/ShopPage";
 import RegisterPage from "./pages/RegisterPage";
 import Header from "./components/Header";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/utils";
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/userActions";
 
-function App({ setCurrentUser }) {
+function App({ currentUser, setCurrentUser }) {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -29,7 +29,7 @@ function App({ setCurrentUser }) {
     return () => {
       unsubscribeFromAuth();
     };
-  }, []);
+  }, [setCurrentUser]);
 
   return (
     <div className="App">
@@ -37,14 +37,21 @@ function App({ setCurrentUser }) {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
-        <Route path="/signin" element={<RegisterPage />} />
+        <Route
+          path="/signin"
+          element={currentUser ? <Navigate to="/" replace /> : <RegisterPage />}
+        />
       </Routes>
     </div>
   );
 }
 
+const mapState = ({ user: { currentUser } }) => ({
+  currentUser,
+});
+
 const mapDispatch = {
   setCurrentUser,
 };
 
-export default connect(null, mapDispatch)(App);
+export default connect(mapState, mapDispatch)(App);
