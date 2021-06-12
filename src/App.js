@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import HomePage from "./pages/Homepage";
 import ShopPage from "./pages/ShopPage";
 import RegisterPage from "./pages/RegisterPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import Header from "./components/Header";
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -37,6 +38,7 @@ function App({ currentUser, setCurrentUser }) {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route
           path="/signin"
           element={currentUser ? <Navigate to="/" replace /> : <RegisterPage />}
