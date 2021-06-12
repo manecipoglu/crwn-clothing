@@ -12,6 +12,18 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       };
     case "ADD_ITEM":
       return { ...state, cartItems: addItem(state.cartItems, action.payload) };
+    case "REMOVE_ITEM":
+      return {
+        ...state,
+        cartItems: removeItem(state.cartItems, action.payload),
+      };
+    case "CLEAR_ITEM":
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          item => item.id !== action.payload.id
+        ),
+      };
     default:
       return state;
   }
@@ -29,4 +41,16 @@ export const addItem = (cartItems, itemToAdd) => {
   }
 
   return [...cartItems, { ...itemToAdd, quantity: 1 }];
+};
+
+export const removeItem = (cartItems, itemToRemove) => {
+  if (itemToRemove.quantity === 1) {
+    return cartItems.filter(item => item.id !== itemToRemove.id);
+  }
+
+  return cartItems.map(item =>
+    item.id === itemToRemove.id
+      ? { ...item, quantity: item.quantity - 1 }
+      : item
+  );
 };
