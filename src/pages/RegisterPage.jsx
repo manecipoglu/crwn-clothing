@@ -3,7 +3,7 @@ import React from "react";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
-import "./Register.scss";
+import "./RegisterPage.scss";
 
 const RegisterPage = () => (
   <div className="register">

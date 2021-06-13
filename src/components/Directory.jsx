@@ -1,9 +1,11 @@
 import { selectDirectorySections } from "../redux/directory/directorySelectors";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import MenuItem from "./MenuItem";
 import "./Directory.scss";
 
-function Directory({ sections }) {
+function Directory() {
+  const sections = useSelector(selectDirectorySections);
+
   return (
     <div className="directory-menu">
       {sections.map(({ id, ...otherSectionProps }) => (
@@ -13,8 +15,4 @@ function Directory({ sections }) {
   );
 }
 
-const mapState = state => ({
-  sections: selectDirectorySections(state),
-});
-
-export default connect(mapState)(Directory);
+export default Directory;

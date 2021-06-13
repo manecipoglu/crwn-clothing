@@ -1,19 +1,19 @@
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CollectionPreview from "./CollectionPreview";
 import { selectCollectionsForPreview } from "../redux/shop/shopSelectors";
 
 import "./CollectionsOverview.scss";
 
-const CollectionsOverview = ({ collections }) => (
-  <div className="collections-overview">
-    {collections.map(({ id, ...otherCollectionProps }) => (
-      <CollectionPreview key={id} {...otherCollectionProps} />
-    ))}
-  </div>
-);
+const CollectionsOverview = () => {
+  const collections = useSelector(selectCollectionsForPreview);
 
-const mapState = state => ({
-  collections: selectCollectionsForPreview(state),
-});
+  return (
+    <div className="collections-overview">
+      {collections.map(({ id, ...otherCollectionProps }) => (
+        <CollectionPreview key={id} {...otherCollectionProps} />
+      ))}
+    </div>
+  );
+};
 
-export default connect(mapState)(CollectionsOverview);
+export default CollectionsOverview;
