@@ -37,7 +37,7 @@ function App({ currentUser, setCurrentUser }) {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/shop/*" element={<ShopPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route
           path="/signin"
