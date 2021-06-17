@@ -2,17 +2,23 @@ import { useRef, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import CollectionsOverview from "../components/CollectionsOverview";
 import CollectionPage from "./CollectionPage";
-import { firestore, convertCollectionsToMap } from "../firebase/utils";
+import { firestore, convertCollectionsSnapshotToMap } from "../firebase/utils";
+import { useDispatch } from "react-redux";
+import { updateCollections } from "../redux/shop/shopActions";
 
 const ShopPage = () => {
+  const dispatch = useDispatch();
   const unsubscribeFromSnapshot = useRef(null);
 
   useEffect(() => {
     const collectionRef = firestore.collection("collections");
 
-    collectionRef.onSnapshot(async snapshot => {
-      convertCollectionsToMap(snapshot);
-    });
+    unsubscribeFromSnapshot.current = collectionRef.onSnapshot(
+      async snapshot => {
+        const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+        dispatch(updateCollections(collectionsMap));
+      }
+    );
   });
 
   return (
