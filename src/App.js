@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import HomePage from "./pages/Homepage";
 import ShopPage from "./pages/ShopPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -15,8 +15,10 @@ function App() {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch(setCurrentUser);
 
+  const unsubscribeFromAuth = useRef(null);
+
   useEffect(() => {
-    const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    unsubscribeFromAuth.current = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
