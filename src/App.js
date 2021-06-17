@@ -7,30 +7,36 @@ import Header from "./components/Header";
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/utils";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./redux/user/userActions";
+import { selectCurrentUser } from "./redux/user/userSelectors";
 
-function App({ currentUser, setCurrentUser }) {
+function App() {
+  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch(setCurrentUser);
+
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data(),
-          });
+          dispatch(
+            setCurrentUser({
+              id: snapShot.id,
+              ...snapShot.data(),
+            })
+          );
         });
       } else {
-        setCurrentUser(userAuth);
+        dispatch(setCurrentUser(userAuth));
       }
     });
 
     return () => {
       unsubscribeFromAuth();
     };
-  }, [setCurrentUser]);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -48,12 +54,4 @@ function App({ currentUser, setCurrentUser }) {
   );
 }
 
-const mapState = ({ user: { currentUser } }) => ({
-  currentUser,
-});
-
-const mapDispatch = {
-  setCurrentUser,
-};
-
-export default connect(mapState, mapDispatch)(App);
+export default App;
