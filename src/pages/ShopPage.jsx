@@ -1,42 +1,63 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import CollectionsOverview from "../components/CollectionsOverview";
 import CollectionPage from "./CollectionPage";
-import { firestore, convertCollectionsSnapshotToMap } from "../firebase/utils";
-import { useDispatch } from "react-redux";
-import { updateCollections } from "../redux/shop/shopActions";
-import Spinner from "../components/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCollectionsStartAsync } from "../redux/shop/shopActions";
+import { selectCollectionFetching } from "../redux/shop/shopSelectors";
+import WithSpinner from "../components/WithSpinner";
 
-const CollectionsOverviewWithSpinner = Spinner(CollectionsOverview);
-const CollectionPageWithSpinner = Spinner(CollectionPage);
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 const ShopPage = () => {
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const unsubscribeFromSnapshot = useRef(null);
+  const collectionFetching = useSelector(selectCollectionFetching);
 
   useEffect(() => {
-    const collectionRef = firestore.collection("collections");
+    dispatch(fetchCollectionsStartAsync());
+  }, [dispatch]);
 
-    unsubscribeFromSnapshot.current = collectionRef.onSnapshot(
-      async snapshot => {
-        const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-        dispatch(updateCollections(collectionsMap));
-        setLoading(false);
-      }
-    );
-  });
+  // const unsubscribeFromSnapshot = useRef(null);
+  // useEffect(() => {
+  //   const collectionRef = firestore.collection("collections");
+
+  // FIREBASE METHOD
+  // unsubscribeFromSnapshot.current = collectionRef.onSnapshot(
+  //   async snapshot => {
+  //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+  //     dispatch(updateCollections(collectionsMap));
+  //     setLoading(false);
+  //   }
+  // );
+
+  // FETCH METHOD
+  // fetch(
+  //   "https://firestore.googleapis.com/v1/projects/crwn-clothing-15ca1/databases/(default)/documents/collections"
+  // )
+  //   .then(res => res.json())
+  //   .then(data => console.log(data));
+
+  // PROMISE METHOD - BUT IT IS NOT LIVE UPDATING!
+  // collectionRef.get().then(snapshot => {
+  //   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+  //   dispatch(updateCollections(collectionsMap));
+  //   setLoading(false);
+  // });
+  // });
 
   return (
     <div className="shop-page">
       <Routes>
         <Route
           path="/"
-          element={<CollectionsOverviewWithSpinner isLoading={loading} />}
+          element={
+            <CollectionsOverviewWithSpinner isLoading={collectionFetching} />
+          }
         />
         <Route
           path=":collectionId"
-          element={<CollectionPageWithSpinner isLoading={loading} />}
+          element={<CollectionPageWithSpinner isLoading={collectionFetching} />}
         />
       </Routes>
     </div>
