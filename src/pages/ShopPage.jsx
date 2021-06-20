@@ -4,7 +4,10 @@ import CollectionsOverview from "../components/CollectionsOverview";
 import CollectionPage from "./CollectionPage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCollectionsStartAsync } from "../redux/shop/shopActions";
-import { selectCollectionFetching } from "../redux/shop/shopSelectors";
+import {
+  selectCollectionFetching,
+  selectIsCollectionsLoaded,
+} from "../redux/shop/shopSelectors";
 import WithSpinner from "../components/WithSpinner";
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
@@ -13,6 +16,7 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 const ShopPage = () => {
   const dispatch = useDispatch();
   const collectionFetching = useSelector(selectCollectionFetching);
+  const isCollectionsLoaded = useSelector(selectIsCollectionsLoaded);
 
   useEffect(() => {
     dispatch(fetchCollectionsStartAsync());
@@ -57,7 +61,9 @@ const ShopPage = () => {
         />
         <Route
           path=":collectionId"
-          element={<CollectionPageWithSpinner isLoading={collectionFetching} />}
+          element={
+            <CollectionPageWithSpinner isLoading={!isCollectionsLoaded} />
+          }
         />
       </Routes>
     </div>
