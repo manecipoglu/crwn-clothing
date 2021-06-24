@@ -4,7 +4,7 @@ import ShopPage from "./pages/ShopPage";
 import RegisterPage from "./pages/RegisterPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Header from "./components/Header";
-import "./App.css";
+import "./App.scss";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/utils";
 import { useSelector, useDispatch } from "react-redux";
