@@ -22,34 +22,6 @@ const ShopPage = () => {
     dispatch(fetchCollectionsStartAsync());
   }, [dispatch]);
 
-  // const unsubscribeFromSnapshot = useRef(null);
-  // useEffect(() => {
-  //   const collectionRef = firestore.collection("collections");
-
-  // FIREBASE METHOD
-  // unsubscribeFromSnapshot.current = collectionRef.onSnapshot(
-  //   async snapshot => {
-  //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-  //     dispatch(updateCollections(collectionsMap));
-  //     setLoading(false);
-  //   }
-  // );
-
-  // FETCH METHOD
-  // fetch(
-  //   "https://firestore.googleapis.com/v1/projects/crwn-clothing-15ca1/databases/(default)/documents/collections"
-  // )
-  //   .then(res => res.json())
-  //   .then(data => console.log(data));
-
-  // PROMISE METHOD - BUT IT IS NOT LIVE UPDATING!
-  // collectionRef.get().then(snapshot => {
-  //   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-  //   dispatch(updateCollections(collectionsMap));
-  //   setLoading(false);
-  // });
-  // });
-
   return (
     <div className="shop-page">
       <Routes>
@@ -71,3 +43,31 @@ const ShopPage = () => {
 };
 
 export default ShopPage;
+
+// const unsubscribeFromSnapshot = useRef(null);
+// useEffect(() => {
+//   const collectionRef = firestore.collection("collections");
+
+// FIREBASE METHOD
+// unsubscribeFromSnapshot.current = collectionRef.onSnapshot(
+//   async snapshot => {
+//     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+//     dispatch(updateCollections(collectionsMap));
+//     setLoading(false);
+//   }
+// );
+
+// FETCH METHOD
+// fetch(
+//   "https://firestore.googleapis.com/v1/projects/crwn-clothing-15ca1/databases/(default)/documents/collections"
+// )
+//   .then(res => res.json())
+//   .then(data => console.log(data));
+
+// PROMISE METHOD - BUT IT IS NOT LIVE UPDATING!
+// collectionRef.get().then(snapshot => {
+//   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+//   dispatch(updateCollections(collectionsMap));
+//   setLoading(false);
+// });
+// });
