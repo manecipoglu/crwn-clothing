@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./redux/user/userActions";
 import { selectCurrentUser } from "./redux/user/userSelectors";
 
+import ContactPage from "./pages/ContactPage";
+
 const HomePage = lazy(() => import("./pages/Homepage"));
 const ShopPage = lazy(() => import("./pages/ShopPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
@@ -53,6 +55,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/shop/*" element={<ShopPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route
               path="/signin"
