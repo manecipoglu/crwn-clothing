@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import CollectionsOverview from "../components/CollectionsOverview";
-import CollectionPage from "./CollectionPage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCollectionsStartAsync } from "../redux/shop/shopActions";
 import {
   selectCollectionFetching,
   selectIsCollectionsLoaded,
 } from "../redux/shop/shopSelectors";
-import WithSpinner from "../components/WithSpinner";
+import Spinner from "../components/Spinner";
 
-const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
-const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+const CollectionsOverview = lazy(() =>
+  import("../components/CollectionsOverview")
+);
+const CollectionPage = lazy(() => import("./CollectionPage"));
 
 const ShopPage = () => {
   const dispatch = useDispatch();
@@ -24,20 +24,18 @@ const ShopPage = () => {
 
   return (
     <div className="shop-page">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <CollectionsOverviewWithSpinner isLoading={collectionFetching} />
-          }
-        />
-        <Route
-          path=":collectionId"
-          element={
-            <CollectionPageWithSpinner isLoading={!isCollectionsLoaded} />
-          }
-        />
-      </Routes>
+      <Suspense fallback={<Spinner />}>
+        <Routes>
+          <Route
+            path="/"
+            element={<CollectionsOverview isLoading={collectionFetching} />}
+          />
+          <Route
+            path=":collectionId"
+            element={<CollectionPage isLoading={!isCollectionsLoaded} />}
+          />
+        </Routes>
+      </Suspense>
     </div>
   );
 };
