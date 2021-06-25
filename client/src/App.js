@@ -1,5 +1,7 @@
 import { useEffect, useRef, lazy, Suspense } from "react";
 
+import ErrorBoundary from "./components/ErrorBoundary";
+
 import Header from "./components/Header";
 import Spinner from "./components/Spinner";
 import "./App.scss";
@@ -46,19 +48,21 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Suspense fallback={<Spinner />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/shop/*" element={<ShopPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route
-            path="/signin"
-            element={
-              currentUser ? <Navigate to="/" replace /> : <RegisterPage />
-            }
-          />
-        </Routes>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/shop/*" element={<ShopPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route
+              path="/signin"
+              element={
+                currentUser ? <Navigate to="/" replace /> : <RegisterPage />
+              }
+            />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
