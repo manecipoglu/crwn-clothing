@@ -7,6 +7,11 @@
   font-size: 20px;
   align-items: center;
 
+  @media screen and (max-width: 800px) {
+    font-size: 18px;
+    justify-content: space-between;
+  }
+
   .image-container {
     width: 23%;
     padding-right: 15px;
@@ -20,10 +25,25 @@
   .quantity,
   .price {
     width: 23%;
+
+    @media screen and (max-width: 800px) {
+      width: 20%;
+      text-align: center;
+    }
+  }
+
+  .name {
+    @media screen and (max-width: 800px) {
+      text-align: start;
+    }
   }
 
   .quantity {
     display: flex;
+
+    @media screen and (max-width: 800px) {
+      justify-content: center;
+    }
 
     .arrow {
       cursor: pointer;

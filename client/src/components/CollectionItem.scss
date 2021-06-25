@@ -59,13 +59,17 @@
     justify-content: space-between;
     font-size: 18px;
 
+    @media screen and (max-width: 800px) {
+      height: 10%;
+    }
+
     .name {
       width: 90%;
       margin-bottom: 15px;
     }
 
     .price {
-      width: 10%;
+      width: 40px;
     }
   }
 }
