@@ -22,7 +22,7 @@ class ErrorBoundary extends React.Component {
       // You can render any custom fallback UI
       return (
         <div className="ErrorImageOverlay">
-          <div className="ErrorImageContainer"></div>
+          <div className="ErrorImageContainer" />
           <h2 className="ErrorImageText">A dog ate this page.</h2>
         </div>
       );
