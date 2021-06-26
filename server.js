@@ -9,11 +9,12 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === "production") {
+  app.use(compression());
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
   app.use(express.static(path.join(__dirname, "client/build")));
 
   app.get("*", (req, res) => {
@@ -35,6 +36,10 @@ app.post("/payment", (req, res) => {
       res.status(200).send({ success: stripeRes });
     }
   });
+});
+
+app.get("/serviceWorker.js", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "build", "serviceWorker.js"));
 });
 
 app.listen(PORT, err => {
