@@ -1,7 +1,6 @@
-import { useEffect, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCollectionsStartAsync } from "../redux/shop/shopActions";
+import { useSelector } from "react-redux";
 import {
   selectCollectionFetching,
   selectIsCollectionsLoaded,
@@ -14,13 +13,8 @@ const CollectionsOverview = lazy(() =>
 const CollectionPage = lazy(() => import("./CollectionPage"));
 
 const ShopPage = () => {
-  const dispatch = useDispatch();
   const collectionFetching = useSelector(selectCollectionFetching);
   const isCollectionsLoaded = useSelector(selectIsCollectionsLoaded);
-
-  useEffect(() => {
-    dispatch(fetchCollectionsStartAsync());
-  }, [dispatch]);
 
   return (
     <div className="shop-page">
