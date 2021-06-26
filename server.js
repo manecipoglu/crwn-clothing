@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const compression = require("compression");
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
@@ -13,7 +12,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === "production") {
-  app.use(compression());
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
   app.use(express.static(path.join(__dirname, "client/build")));
 
