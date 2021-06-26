@@ -38,8 +38,8 @@ app.post("/payment", (req, res) => {
   });
 });
 
-app.get("/serviceWorker.js", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "..", "build", "serviceWorker.js"));
+app.get("/service-worker.js", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "build", "service-worker.js"));
 });
 
 app.listen(PORT, err => {
